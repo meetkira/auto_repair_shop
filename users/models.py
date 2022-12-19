@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    passport = models.CharField(max_length=11, unique=True, validators=[
+    passport = models.CharField(max_length=11, unique=True, null=True, blank=True, validators=[
         RegexValidator(
             regex='\d{4}\s\d{6}',
             message='Invalid passport data',
@@ -47,7 +47,7 @@ class User(AbstractBaseUser):
     ])
 
     title = models.CharField(verbose_name="Название компании", max_length=100)
-    requisites = models.CharField(verbose_name="Реквизиты", max_length=100)
+    requisites = models.CharField(verbose_name="Реквизиты", max_length=100, unique=True, null=True, blank=True,)
 
     USERNAME_FIELD = "email"
 

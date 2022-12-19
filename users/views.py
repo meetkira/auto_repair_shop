@@ -1,7 +1,8 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from users.models import User, IndividualUser, EntityUser
+from users.permissions import IsWorker, IsWorkerOrCurrent
 from users.serializers import IndividualUserRegistrationSerializer, EntityUserRegistrationSerializer, \
     IndividualUserSerializer, EntityUserSerializer
 
@@ -18,7 +19,7 @@ class IndividualUserCreateView(CreateAPIView):
 class IndividualUserListView(ListAPIView):
     """Получение списка физ лиц"""
     serializer_class = IndividualUserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsWorker]
 
     def get_queryset(self):
         return User.objects.filter(type=User.Types.INDIVIDUAL)
@@ -28,7 +29,7 @@ class IndividualUserView(RetrieveUpdateDestroyAPIView):
     """Получение/обновление/удаление физ лиц"""
     model = IndividualUser
     serializer_class = IndividualUserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsWorkerOrCurrent]
 
     def get_object(self):
         obj = self.request.user
@@ -45,7 +46,7 @@ class EntityUserCreateView(CreateAPIView):
 class EntityUserListView(ListAPIView):
     """Получение списка юр лиц"""
     serializer_class = EntityUserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsWorker]
 
     def get_queryset(self):
         return User.objects.filter(type=User.Types.ENTITY)
@@ -55,7 +56,7 @@ class EntityUserView(RetrieveUpdateDestroyAPIView):
     """Получение/обновление/удаление юр лиц"""
     model = EntityUser
     serializer_class = EntityUserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsWorkerOrCurrent]
 
     def get_object(self):
         obj = self.request.user

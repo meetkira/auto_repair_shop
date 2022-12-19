@@ -6,22 +6,12 @@ from rest_framework.exceptions import AuthenticationFailed
 from users.models import User, EntityUser, IndividualUser
 
 
-class LoginSerializer(serializers.ModelSerializer):
-    """Сериализатор для авторизации пользователя"""
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
+class UserSerializer(serializers.ModelSerializer):
+    """Сериализатор для пользователя"""
 
     class Meta:
         model = User
-        fields = ('email', 'password', )
-
-    def create(self, validated_data):
-        if not (user := authenticate(
-                username=validated_data['username'],
-                password=validated_data['password'],
-        )):
-            raise AuthenticationFailed
-        return user
+        fields = ('id', 'email', )
 
 
 class IndividualUserRegistrationSerializer(serializers.ModelSerializer):
@@ -30,7 +20,7 @@ class IndividualUserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, write_only=True, validators=[validate_password])
 
     class Meta:
-        model = User
+        model = IndividualUser
         fields = ('id', 'first_name', 'last_name', 'email', 'password', 'passport', 'is_worker', 'middle_name')
         read_only_fields = ('id',)
 
@@ -52,7 +42,7 @@ class IndividualUserRegistrationSerializer(serializers.ModelSerializer):
 
 class IndividualUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = IndividualUser
         fields = ['id', "email", "passport", "first_name", "middle_name", "last_name", "is_worker", "is_active"]
         read_only_fields = ('id',)
 
@@ -63,7 +53,7 @@ class EntityUserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=128, write_only=True, validators=[validate_password])
 
     class Meta:
-        model = User
+        model = EntityUser
         fields = ('id', 'title', 'requisites', 'email', 'password', )
         read_only_fields = ('id',)
 
@@ -82,7 +72,6 @@ class EntityUserRegistrationSerializer(serializers.ModelSerializer):
 
 class EntityUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = EntityUser
         fields = ['id', "email", "title", "requisites"]
         read_only_fields = ('id',)
-
