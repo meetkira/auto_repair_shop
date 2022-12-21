@@ -14,5 +14,5 @@ class IsWorkerOrCurrent(permissions.IsAuthenticated):
     Permissions для пользователей.
     """
 
-    def has_permission(self, request, view):
+    def has_object_permission(self, request, view, obj):
         return request.user.is_worker or request.user.id == obj.id

@@ -74,7 +74,7 @@ class IndividualManager(models.Manager):
             raise ValueError("Password field is required!")
         if not passport:
             raise ValueError("Passport field is required!")
-        if not first_name or last_name:
+        if not first_name or not last_name:
             raise ValueError("First name and last name fields are required!")
 
         email = email.lower()

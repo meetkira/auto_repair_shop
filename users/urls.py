@@ -12,6 +12,8 @@ urlpatterns = [
     path('entity/list/', views.EntityUserListView.as_view(), name='list entity user'),
     path('entity/', views.EntityUserView.as_view(), name='get/update/delete entity user'),
 
+    path('change_password/', views.ChangePasswordView.as_view(), name='change user password'),
+
     path("token/", TokenObtainPairView.as_view(), name='token'),
     path("token/refresh/", TokenRefreshView.as_view(), name='refresh_token'),
 ]

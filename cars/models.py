@@ -29,7 +29,7 @@ class Car(DatesModelMixin):
 
     model = models.CharField(verbose_name="Модель авто", max_length=100)
     brand = models.CharField(verbose_name="Марка авто", max_length=100)
-    number = models.CharField(verbose_name="Номер авто", max_length=9)
+    number = models.CharField(verbose_name="Номер авто", max_length=9, unique=True, db_index=True)
     color = models.CharField(verbose_name="Цвет авто", max_length=100)
     user = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.PROTECT)
 

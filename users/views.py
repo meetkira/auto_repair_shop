@@ -1,13 +1,24 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User, IndividualUser, EntityUser
 from users.permissions import IsWorker, IsWorkerOrCurrent
 from users.serializers import IndividualUserRegistrationSerializer, EntityUserRegistrationSerializer, \
-    IndividualUserSerializer, EntityUserSerializer
+    IndividualUserSerializer, EntityUserSerializer, ChangePasswordSerializer
 
 
 # Create your views here.
+
+class ChangePasswordView(UpdateAPIView):
+    """Смена пароля пользователя"""
+    model = User
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
 
 # ----------------Individual
 class IndividualUserCreateView(CreateAPIView):

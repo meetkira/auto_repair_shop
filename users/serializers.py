@@ -1,7 +1,5 @@
-from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from rest_framework.exceptions import AuthenticationFailed
 
 from users.models import User, EntityUser, IndividualUser
 
@@ -12,6 +10,29 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', )
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    """Сериализатор для смены пароля пользователя"""
+    old_password = serializers.CharField(max_length=128, write_only=True)
+    new_password = serializers.CharField(max_length=128, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'new_password', 'old_password',)
+        read_only_fields = ('id',)
+
+    def validate(self, attrs):
+        old_password = attrs.get("old_password")
+        user = self.instance
+        if not user.check_password(old_password):
+            raise serializers.ValidationError({"password error": "Incorrect old password"})
+        return attrs
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data["new_password"])
+        instance.save(update_fields=["password"])
+        return instance
 
 
 class IndividualUserRegistrationSerializer(serializers.ModelSerializer):
