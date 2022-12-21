@@ -1,7 +1,7 @@
 from pytest_factoryboy import register
 
 from tests.factories import IndividualUserFactory, EntityUserFactory, CarFactory, SparePartRegisterFactory, \
-    PurchaseFactory, SparePartPurchaseFactory
+    PurchaseFactory, SparePartPurchaseFactory, ServiceRegisterFactory
 
 pytest_plugins = "tests.fixtures"
 
@@ -11,3 +11,4 @@ register(CarFactory)
 register(SparePartRegisterFactory)
 register(PurchaseFactory)
 register(SparePartPurchaseFactory)
+register(ServiceRegisterFactory)

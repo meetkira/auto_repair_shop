@@ -10,4 +10,9 @@ urlpatterns = [
     path('purchases/create/', views.PurchaseCreateView.as_view(), name='create purchase'),
     path('purchases/purchase/<int:pk>/', views.PurchaseView.as_view(), name='get purchase'),
     path('purchases/', views.PurchaseListView.as_view(), name='list purchases'),
+
+    path('services/create/', views.ServiceCreateView.as_view(), name='create service'),
+    path('services/service/<int:pk>/', views.ServiceView.as_view(), name='get service'),
+    path('services/', views.ServiceListView.as_view(), name='list services'),
+
 ]

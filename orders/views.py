@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
-from orders.models import SparePartRegister, Purchase
+from orders.models import SparePartRegister, Purchase, ServiceRegister
 from orders.serializers import SparePartCreateSerializer, SparePartSerializer, PurchaseCreateSerializer, \
-    PurchaseSerializer
+    PurchaseSerializer, ServiceCreateSerializer, ServiceSerializer
 from users.permissions import IsWorker
 
 
 # Create your views here.
 # ---------------- SparePartRegister
 class SparePartCreateView(CreateAPIView):
-    """Создание запчасти в реестре запчастей"""
+    """Добавление запчасти в реестре запчастей"""
     queryset = SparePartRegister.objects.all()
     serializer_class = SparePartCreateSerializer
     permission_classes = [IsWorker]
@@ -53,9 +54,25 @@ class PurchaseView(RetrieveUpdateDestroyAPIView):
     serializer_class = PurchaseSerializer
     permission_classes = [IsWorker]
 
-'''class PurchaseView(RetrieveDestroyAPIView):
-    """Получение/удаление закупки"""
-    model = Purchase
-    queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
-    permission_classes = [IsWorker]'''
+
+# ---------------- ServiceRegister
+class ServiceCreateView(CreateAPIView):
+    """Добавление услуги в реестр услуг"""
+    queryset = ServiceRegister.objects.all()
+    serializer_class = ServiceCreateSerializer
+    permission_classes = [IsWorker]
+
+
+class ServiceListView(ListAPIView):
+    """Получение реестра услуг"""
+    queryset = ServiceRegister.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ServiceView(RetrieveUpdateDestroyAPIView):
+    """Получение/удаление услуги из реестра"""
+    model = ServiceRegister
+    queryset = ServiceRegister.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [IsWorker]

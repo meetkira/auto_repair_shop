@@ -3,7 +3,7 @@ from datetime import datetime
 import factory.django
 
 from cars.models import Car
-from orders.models import SparePartRegister, Purchase, SparePartPurchase
+from orders.models import SparePartRegister, Purchase, SparePartPurchase, ServiceRegister
 from users.models import IndividualUser, EntityUser
 
 
@@ -68,3 +68,11 @@ class SparePartPurchaseFactory(factory.django.DjangoModelFactory):
     amount = 10
     spare_part = factory.SubFactory(SparePartRegisterFactory)
     purchase = factory.SubFactory(PurchaseFactory)
+
+
+class ServiceRegisterFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ServiceRegister
+
+    price = 1000
+    name = "test_name"

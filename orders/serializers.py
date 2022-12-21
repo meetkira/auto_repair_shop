@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import transaction
 from rest_framework import serializers
 
-from orders.models import SparePartRegister, Purchase, SparePartPurchase
+from orders.models import SparePartRegister, Purchase, SparePartPurchase, ServiceRegister
 
 
 # ---------------- SparePartRegister
@@ -97,3 +97,18 @@ class PurchaseSerializer(serializers.ModelSerializer):
         return instance
 
 
+# ---------------- ServiceRegister
+class ServiceCreateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = ServiceRegister
+        read_only_fields = ("id", "created", "updated", )
+        fields = "__all__"
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceRegister
+        fields = "__all__"
+        read_only_fields = ("id", "created", "updated", )

@@ -51,7 +51,7 @@ class SparePartPurchase(DatesModelMixin):
     purchase = models.ForeignKey(
         Purchase,
         verbose_name="Закупка",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
 
     cost = models.PositiveIntegerField(verbose_name="Себестоимость запчасти")
