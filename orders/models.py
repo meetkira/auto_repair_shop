@@ -79,7 +79,7 @@ class Order(DatesModelMixin):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
-    final_bill = models.PositiveIntegerField(verbose_name="Итоговый счет")
+    final_bill = models.PositiveIntegerField(verbose_name="Итоговый счет", default=0)
     is_paid = models.BooleanField(verbose_name="Отметка об оплате", default=False)
     car = models.ForeignKey(Car, verbose_name="Автомобиль", on_delete=models.PROTECT)
     services = models.ManyToManyField(ServiceRegister, verbose_name="Услуги")
@@ -104,7 +104,7 @@ class SparePartOrder(DatesModelMixin):
     order = models.ForeignKey(
         Order,
         verbose_name="Заказ",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
 
     amount = models.PositiveIntegerField(verbose_name="Количество запчастей")

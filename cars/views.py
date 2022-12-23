@@ -20,7 +20,7 @@ class CarListView(ListAPIView):
     permission_classes = [IsWorker]
 
 
-class UsersCarListView(ListAPIView):
+class UserCarListView(ListAPIView):
     """Получение списка автомобилей пользователя"""
     queryset = Car.objects.all()
     serializer_class = CarSerializer

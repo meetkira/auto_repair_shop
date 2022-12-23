@@ -3,7 +3,7 @@ from datetime import datetime
 import factory.django
 
 from cars.models import Car
-from orders.models import SparePartRegister, Purchase, SparePartPurchase, ServiceRegister
+from orders.models import SparePartRegister, Purchase, SparePartPurchase, ServiceRegister, Order, SparePartOrder
 from users.models import IndividualUser, EntityUser
 
 
@@ -76,3 +76,30 @@ class ServiceRegisterFactory(factory.django.DjangoModelFactory):
 
     price = 1000
     name = "test_name"
+
+
+class OrderFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Order
+
+    final_bill = 10000
+    is_paid = False
+    car = factory.SubFactory(CarFactory)
+
+    @factory.post_generation
+    def services(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for service in extracted:
+                self.services.add(service)
+
+
+class SparePartOrderFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = SparePartOrder
+
+    amount = 5
+    spare_part = factory.SubFactory(SparePartRegisterFactory)
+    order = factory.SubFactory(OrderFactory)

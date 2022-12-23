@@ -27,4 +27,4 @@ def test_can_update_purchase(client, spare_part_purchase, create_user_token):
     assert response.status_code == 200
     assert response.data["supplier"] == data["supplier"]
     assert len(response.data["sparepartpurchase_set"]) == 1
-    assert response.data["sparepartpurchase_set"]["amount"] == 20
+    assert response.data["sparepartpurchase_set"][0]["amount"] == 20

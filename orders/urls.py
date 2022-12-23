@@ -15,4 +15,8 @@ urlpatterns = [
     path('services/service/<int:pk>/', views.ServiceView.as_view(), name='get service'),
     path('services/', views.ServiceListView.as_view(), name='list services'),
 
+    path('create/', views.OrderCreateView.as_view(), name='create order'),
+    path('order/<int:pk>/', views.OrderView.as_view(), name='get order'),
+    path('', views.OrderListView.as_view(), name='list orders'),
+    path('user/', views.UserOrderListView.as_view(), name='list user orders'),
 ]
