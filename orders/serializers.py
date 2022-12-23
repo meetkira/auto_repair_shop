@@ -149,6 +149,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             service = ServiceRegister.objects.get(id=service_id)
             order.services.add(service)
             order.final_bill += service.price
+        order.save()
         return order
 
     class Meta:
